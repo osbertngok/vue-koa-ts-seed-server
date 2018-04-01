@@ -1,9 +1,11 @@
 import * as Router from 'koa-router';
-import * as cp from 'child_process';
-import {Context} from 'koa';
+
+
+import {userRouter} from './user';
+import {utilsRouter} from './utils';
+
+
 export const v1Router = new Router();
 
-v1Router.get('/ping', async (ctx: Context, next) => {
-  ctx.status = 200;
-  ctx.body = cp.spawn('ping', ['-c', '10', 'google.com']).stdout;
-});
+v1Router.use('/user', userRouter.routes());
+v1Router.use('/utils', utilsRouter.routes());

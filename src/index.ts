@@ -1,2 +1,3 @@
-// export {app as internalWebServer} from './internalWebServer';
-export {app as externalWebServer} from './externalWebServer';
+import {app as externalWebServer} from './externalWebServer';
+
+externalWebServer.start();
