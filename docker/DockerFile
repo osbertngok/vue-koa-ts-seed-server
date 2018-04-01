@@ -2,11 +2,17 @@ FROM library/node:9-alpine
 ENV PROJECT_NAME vue-koa-ts-seed-server
 MAINTAINER osbertngok<osbertngok@gmail.com>
 
+# Add curl for debug purpose; comment this for prod
+# RUN apk add --no-cache curl
+
 RUN mkdir /app
 WORKDIR /app
 
 # Preserve package.json and yarn.lock so that it won't be imapcted by yarn cache clean
 COPY package.json yarn.lock /app/
+
+# must keep yarn cache clean, as this is within the docker image
+# expect 40MB+ files if not doing that
 RUN TMPDIR=/tmp yarn --ignore-optional && yarn cache clean
 
 # COPY everything (except in .dockerignore) to /app
