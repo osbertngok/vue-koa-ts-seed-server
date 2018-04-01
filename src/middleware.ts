@@ -25,10 +25,10 @@ export const objectFormatMiddleware = async (ctx: Context, next: () => Promise<a
 
 export const requireAuthentication = (ctx: Context) => {
   const url = ctx.request.url;
-  if (url.substr(0, 4) === '/api') {
-    return true;
+  if (['/api/v1/user', '/api/v1/user/login'].includes(url)) {
+    return false;
   }
-  return false;
+  return true;
 };
 
 export const authMiddleware = async (ctx: Context, next: () => Promise<any>) => {
@@ -37,7 +37,12 @@ export const authMiddleware = async (ctx: Context, next: () => Promise<any>) => 
     await next();
     return;
   } else {
-    ctx.redirect('/#/login');
+    ctx.status = 401;
+    ctx.body = {
+      success: false,
+      error: 'not_authenticated',
+      path: ctx.request.url
+    };
   }
 };
 

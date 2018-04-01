@@ -44,11 +44,13 @@ app.use(async (ctx: Context, next) => {
 app.use(etag());
 app.use(mw.objectFormatMiddleware);
 app.use(rootRouter.routes());
+/*
 app.use(mount('/js', serve(__dirname + '/../frontend/js', {
   maxage: 2628000000,
 })));
 app.use(serve(__dirname + '/../frontend'));
-// app.use(mw.redirectToRootMiddleware);
+app.use(mw.redirectToRootMiddleware);
+*/
 
 
 
