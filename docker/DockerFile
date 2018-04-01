@@ -1,0 +1,19 @@
+FROM library/node:9-alpine
+ENV PROJECT_NAME vue-koa-ts-seed-server
+MAINTAINER osbertngok<osbertngok@gmail.com>
+
+RUN mkdir /app
+WORKDIR /app
+
+# Preserve package.json and yarn.lock so that it won't be imapcted by yarn cache clean
+COPY package.json yarn.lock /app/
+RUN TMPDIR=/tmp yarn --ignore-optional && yarn cache clean
+
+# COPY everything (except in .dockerignore) to /app
+COPY . /app
+
+# assuming inside the docker is always 2333, requires docker-compose to specify publish port
+EXPOSE 2333
+RUN yarn run build
+
+CMD yarn run prod
